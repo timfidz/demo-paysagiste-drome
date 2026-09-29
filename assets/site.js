@@ -17,10 +17,18 @@
       boutonMenu.setAttribute("aria-expanded", String(ouvert));
     });
   }
+  const sousMenus = document.querySelectorAll(".sous-menu");
+  const fermerSousMenus = () => sousMenus.forEach((m) => {
+    m.classList.remove("ouvert");
+    m.querySelector(".ouvrir-sous-menu").setAttribute("aria-expanded", "false");
+  });
   document.querySelectorAll(".ouvrir-sous-menu").forEach((b) => b.addEventListener("click", () => {
     const ouvert = b.parentElement.classList.toggle("ouvert");
     b.setAttribute("aria-expanded", String(ouvert));
   }));
+  // Un clic ailleurs ou la touche Échap referme le menu des services
+  document.addEventListener("click", (e) => { if (!e.target.closest(".sous-menu")) fermerSousMenus(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { fermerSousMenus(); if (document.activeElement.closest(".sous-menu")) document.activeElement.blur(); } });
 
   // Consentement cookies : choix conservé 6 mois (recommandation CNIL), refuser aussi simple qu'accepter
   const CLE = "consentement-cookies";

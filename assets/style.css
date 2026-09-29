@@ -76,7 +76,10 @@ section { padding: clamp(56px, 8vw, 104px) 0; }
 .nav .bouton:hover { background: var(--foret); color: #fff; }
 .sous-menu { position: relative; }
 .sous-menu ul { display: none; position: absolute; top: calc(100% + 6px); left: 0; min-width: 270px; background: var(--blanc); border-radius: 16px; box-shadow: var(--ombre); padding: 10px; flex-direction: column; align-items: stretch; gap: 2px; }
-.sous-menu:hover ul, .sous-menu:focus-within ul, .sous-menu.ouvert ul { display: flex; }
+/* Pont invisible sur l'écart entre le bouton et le menu : la souris qui descend ne quitte pas le survol */
+.sous-menu ul::before { content: ""; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+/* Ouvert au survol, au clic (classe « ouvert »), ou au clavier ; un clic de souris ne le bloque pas ouvert par le focus */
+.sous-menu:hover ul, .sous-menu:has(:focus-visible) ul, .sous-menu.ouvert ul { display: flex; }
 .sous-menu ul a { border-radius: 10px; }
 .bouton-menu { display: none; width: 48px; height: 48px; border: 0; background: var(--sauge-pale); border-radius: 12px; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
 .bouton-menu span { width: 22px; height: 2px; background: var(--foret); border-radius: 2px; }
