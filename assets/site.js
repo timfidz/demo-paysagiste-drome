@@ -84,20 +84,89 @@
     if (c) c.checked = true;
   }
 
-  // Photos du terrain : aperçu avant envoi, 5 photos au plus
+  // Commune : les communes de la zone proposées à la frappe (sans tenir compte des accents), une autre commune reste possible
+  document.querySelectorAll("input[data-communes]").forEach((champ) => {
+    const liste = document.getElementById(champ.getAttribute("aria-controls"));
+    const communes = JSON.parse(champ.dataset.communes);
+    const simple = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    let actif = -1;
+    const fermer = () => { liste.hidden = true; champ.setAttribute("aria-expanded", "false"); champ.removeAttribute("aria-activedescendant"); actif = -1; };
+    const choisir = (c) => {
+      champ.value = c;
+      fermer();
+      const bloc = champ.closest(".champ");
+      bloc.classList.remove("invalide");
+      bloc.querySelector(".erreur").textContent = "";
+    };
+    const montrer = () => {
+      const q = simple(champ.value.trim());
+      const trouvees = communes.filter((c) => simple(c).includes(q));
+      liste.innerHTML = "";
+      trouvees.forEach((c, i) => {
+        const li = document.createElement("li");
+        li.id = "commune-" + i;
+        li.setAttribute("role", "option");
+        li.textContent = c;
+        li.addEventListener("mousedown", (e) => { e.preventDefault(); choisir(c); });
+        liste.appendChild(li);
+      });
+      liste.hidden = !trouvees.length || (trouvees.length === 1 && trouvees[0] === champ.value);
+      champ.setAttribute("aria-expanded", String(!liste.hidden));
+      actif = -1;
+    };
+    const surligner = (i) => {
+      const options = [...liste.children];
+      actif = i;
+      options.forEach((li, k) => li.setAttribute("aria-selected", String(k === actif)));
+      champ.setAttribute("aria-activedescendant", options[actif].id);
+      options[actif].scrollIntoView({ block: "nearest" });
+    };
+    champ.addEventListener("input", montrer);
+    champ.addEventListener("focus", montrer);
+    champ.addEventListener("blur", fermer);
+    champ.addEventListener("keydown", (e) => {
+      if (liste.hidden) return;
+      const n = liste.children.length;
+      if (e.key === "ArrowDown") { e.preventDefault(); surligner((actif + 1) % n); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); surligner(actif <= 0 ? n - 1 : actif - 1); }
+      else if (e.key === "Enter" && actif >= 0) { e.preventDefault(); choisir(liste.children[actif].textContent); }
+      else if (e.key === "Escape") fermer();
+    });
+  });
+
+  // Photos du terrain : chaque ajout s'ajoute aux précédentes (5 au plus), chaque photo peut être retirée
   document.querySelectorAll("input[type=file][data-apercu]").forEach((champ) => {
+    const MAX = 5;
     const zone = document.getElementById(champ.dataset.apercu);
     const info = champ.closest(".champ").querySelector(".erreur");
-    champ.addEventListener("change", () => {
+    const libelle = champ.closest(".depot").querySelector("strong");
+    let photos = [];
+    const afficher = () => {
+      // Le champ garde toutes les photos retenues : c'est lui qui part avec le formulaire
+      try { const dt = new DataTransfer(); photos.forEach((f) => dt.items.add(f)); champ.files = dt.files; } catch {}
       zone.innerHTML = "";
-      const fichiers = [...champ.files].filter((f) => f.type.startsWith("image/")).slice(0, 5);
-      fichiers.forEach((f) => {
+      photos.forEach((f, i) => {
+        const vignette = document.createElement("div");
+        vignette.className = "apercu";
         const img = document.createElement("img");
         img.src = URL.createObjectURL(f);
         img.alt = "Aperçu : " + f.name;
-        zone.appendChild(img);
+        const retirer = document.createElement("button");
+        retirer.type = "button";
+        retirer.textContent = "×";
+        retirer.setAttribute("aria-label", "Retirer la photo " + f.name);
+        retirer.addEventListener("click", () => { photos.splice(i, 1); if (info) info.textContent = ""; afficher(); });
+        vignette.append(img, retirer);
+        zone.appendChild(vignette);
       });
-      if (info) info.textContent = champ.files.length > 5 ? "Seules les 5 premières photos seront envoyées." : "";
+      libelle.textContent = photos.length ? `Ajouter d'autres photos (${photos.length} sur ${MAX})` : "Ajouter des photos";
+    };
+    champ.addEventListener("change", () => {
+      const nouvelles = [...champ.files].filter((f) => f.type.startsWith("image/") && !photos.some((p) => p.name === f.name && p.size === f.size));
+      const place = MAX - photos.length;
+      photos = photos.concat(nouvelles.slice(0, place));
+      if (info) info.textContent = nouvelles.length > place ? `${MAX} photos au plus : les suivantes n'ont pas été ajoutées.` : "";
+      afficher();
     });
   });
 

@@ -223,7 +223,14 @@ textarea { min-height: 130px; resize: vertical; }
 .depot svg { width: 36px; height: 36px; margin: 0 auto 8px; color: var(--vert); }
 .depot input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .apercus { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-.apercus img { width: 84px; height: 84px; object-fit: cover; border-radius: 10px; }
+.apercu { position: relative; }
+.apercu img { width: 84px; height: 84px; object-fit: cover; border-radius: 10px; }
+.apercu button { position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--blanc); background: var(--foret); color: #fff; font-size: 1rem; line-height: 1; cursor: pointer; display: grid; place-items: center; padding: 0; }
+.combo { position: relative; }
+.suggestions { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 20; list-style: none; margin: 0; padding: 6px; background: var(--blanc); border-radius: 14px; box-shadow: 0 18px 40px -12px rgba(31, 43, 30, .35), inset 0 0 0 1px var(--sable); max-height: 264px; overflow-y: auto; }
+.suggestions li { padding: 10px 14px; border-radius: 10px; cursor: pointer; color: var(--encre); }
+.suggestions li:hover, .suggestions li[aria-selected="true"] { background: var(--sauge-pale); color: var(--foret); }
+select { appearance: none; -webkit-appearance: none; padding-right: 42px; cursor: pointer; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2347704A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 14px center / 18px no-repeat; }
 .accord { display: flex; gap: 12px; align-items: flex-start; font-size: .9rem; font-weight: 400; }
 .accord input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--vert); flex: none; }
 .pot-de-miel { position: absolute; left: -9999px; }

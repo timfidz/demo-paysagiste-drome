@@ -51,7 +51,7 @@
         <div>
           <p class="fil"><a href="index.html">Accueil</a> / Devis et contact</p>
           <h1>Demander un devis gratuit</h1>
-          <p class="intro">Décrivez vos travaux en quelques lignes, et ajoutez une photo de votre terrain si vous voulez. Nous vous rappelons pour convenir d'une visite.</p>
+          <p class="intro">Décrivez vos travaux en quelques lignes, et ajoutez des photos de votre terrain si vous voulez. Nous vous rappelons pour convenir d'une visite.</p>
         </div>
       </div>
     </section>
@@ -92,8 +92,12 @@
               </div>
               <div class="champs" style="margin-top:16px">
                 <div class="champ plein"><label for="projet">Décrivez votre projet <span class="obligatoire">*</span></label><textarea id="projet" name="projet" required placeholder="Par exemple : créer un jardin devant la maison, environ 300 m², avec une petite terrasse."></textarea><span class="erreur" aria-live="polite"></span></div>
-                <div class="champ"><label for="commune">Commune du chantier <span class="obligatoire">*</span></label><input type="text" id="commune" name="commune" required list="liste-communes" autocomplete="address-level2"><span class="erreur" aria-live="polite"></span></div>
-                <datalist id="liste-communes"><option value="Montélimar"><option value="Allan"><option value="Malataverne"><option value="Châteauneuf-du-Rhône"><option value="Donzère"><option value="Espeluche"><option value="Montboucher-sur-Jabron"><option value="Puygiron"><option value="La Bâtie-Rolland"><option value="Sauzet"><option value="Savasse"><option value="Ancône"><option value="Le Teil"><option value="Cléon-d'Andran"></datalist>
+                <div class="champ"><label for="commune">Commune du chantier <span class="obligatoire">*</span></label>
+                  <div class="combo">
+                    <input type="text" id="commune" name="commune" required autocomplete="off" placeholder="Par exemple : Montélimar" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions-communes" data-communes='["Montélimar","Allan","Malataverne","Châteauneuf-du-Rhône","Donzère","Espeluche","Montboucher-sur-Jabron","Puygiron","La Bâtie-Rolland","Sauzet","Savasse","Ancône","Le Teil","Cléon-d&#39;Andran"]'>
+                    <ul class="suggestions" id="suggestions-communes" role="listbox" aria-label="Communes de notre zone" hidden></ul>
+                  </div>
+                  <span class="erreur" aria-live="polite"></span></div>
                 <div class="champ"><label for="surface">Surface approximative</label><select id="surface" name="surface"><option value="">Je ne sais pas</option><option>Moins de 200 m²</option><option>De 200 à 500 m²</option><option>De 500 à 1 000 m²</option><option>Plus de 1 000 m²</option></select><span class="erreur"></span></div>
                 <div class="champ plein">
                   <span style="font-weight:500;color:var(--encre)">Photos de votre terrain <span class="petit">(facultatif, 5 au plus)</span></span>
