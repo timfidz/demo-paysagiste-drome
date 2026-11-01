@@ -16,6 +16,10 @@
       const ouvert = nav.classList.toggle("ouvert");
       boutonMenu.setAttribute("aria-expanded", String(ouvert));
     });
+    // Échap referme le menu
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && nav.classList.contains("ouvert")) { boutonMenu.click(); boutonMenu.focus(); }
+    });
   }
   const sousMenus = document.querySelectorAll(".sous-menu");
   const fermerSousMenus = () => sousMenus.forEach((m) => {
