@@ -302,3 +302,13 @@ select { appearance: none; -webkit-appearance: none; padding-right: 42px; cursor
   .boutons .bouton { flex: 1 1 100%; justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Menu sur une ligne entre le téléphone et l'ordinateur, plus serré et sans le numéro, repris ailleurs dans la page (06/11) */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .entete:not(.entete-rideau) > .conteneur { gap: 14px; }
+  .entete:not(.entete-rideau) .marque-nom :is(strong, span) { white-space: nowrap; }
+  .entete:not(.entete-rideau) .nav :is(a, .ouvrir-sous-menu) { white-space: nowrap; }
+  .entete:not(.entete-rideau) .nav li > :is(a:not(.bouton), .ouvrir-sous-menu) { padding-inline: 8px; margin-inline: 0; font-size: .93rem; }
+  .entete:not(.entete-rideau) .nav .bouton, .entete:not(.entete-rideau) .nav .bouton:hover { padding: 10px 14px; font-size: .93rem; }
+  .entete:not(.entete-rideau, .entete-deux-etages) .nav a[href^="tel:"]:not(.bouton) { display: none; }
+}
