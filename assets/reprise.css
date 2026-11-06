@@ -1,0 +1,79 @@
+/* Reprise du 06/11 (outils/demo/reprendre.mjs) */
+/* Police : Sprat, d'Ethan Nakache (Collletttivo), licence SIL OFL */
+@font-face { font-family: "Sprat"; src: url("fonts/sprat.woff2") format("woff2"); font-weight: 400; font-display: optional; }
+@font-face { font-family: "Commissioner"; src: url("fonts/commissioner.woff2") format("woff2"); font-weight: 100 900; font-display: optional; }
+:root { --police-titre: "Sprat", Georgia, serif; --police-texte: "Commissioner", system-ui, sans-serif; }
+svg text[font-family] { font-family: var(--police-texte); }
+:root { --rayon: 3px; --rayon-bouton: 3px; --ombre: none; }
+body { font-synthesis: none; }
+h1, h2, h3, legend { letter-spacing: 0; text-wrap: balance; }
+h1, h2, h3, legend, .marque-nom strong { font-weight: 400; }
+.credit-polices { font-size: .9rem; color: var(--discret); }
+
+/* La petite ligne au-dessus des titres : gardée dans le premier bloc de la page (elle y dit le métier et le lieu), retirée ailleurs */
+.surtitre { display: none; }
+main > :first-child .surtitre { display: inline-block; font-size: 1rem; font-weight: 500; letter-spacing: 0; text-transform: none; margin-bottom: 6px; }
+.bouton { border-radius: var(--rayon-bouton); }
+
+/* En-tête : lien actif souligné, pas de pastille */
+.nav a, .nav .ouvrir-sous-menu { border-radius: 0; }
+.entete:not(.entete-deux-etages) .nav a:not(.bouton):is(:hover, [aria-current="page"]), .entete:not(.entete-deux-etages) .nav .ouvrir-sous-menu:hover { background: none; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px; }
+.nav a.bouton[aria-current="page"], .nav a.bouton[aria-current="page"]:hover { background: var(--accent); color: var(--sur-accent); }
+.bouton-menu { background: none; box-shadow: inset 0 0 0 1px var(--bord); border-radius: var(--rayon-bouton); }
+.sous-menu ul { border: 1px solid var(--bord); border-radius: var(--rayon); box-shadow: none; }
+
+/* Avis et étapes : un filet, le numéro en grand, pas de carte ni de rond */
+.avis { background: none; border-top: 1px solid currentColor; border-radius: 0; box-shadow: none; padding: 16px 0 0; }
+.avis .initiale, .auteur .initiale { display: none; }
+.etapes li { background: none; border-top: 1px solid currentColor; border-radius: 0; box-shadow: none; padding: 14px 0 0; }
+.etapes li::before { display: block; width: auto; height: auto; background: none; border-radius: 0; color: var(--accent); font: 400 2.4rem/1 var(--police-titre); margin-bottom: 14px; }
+
+/* Formulaires et bannière */
+form[data-formulaire], .succes, .cookies { border: 1px solid var(--bord); border-radius: var(--rayon); box-shadow: none; }
+
+/* Relevé dans les feuilles de la démo : coins arrondis */
+.bouton,
+.nav a, .nav .ouvrir-sous-menu,
+.sous-menu ul,
+.sous-menu ul a,
+.bouton-menu,
+.note-google,
+.illustration,
+.illustration .legende-photo,
+.heros .illustration,
+.calendrier span,
+.avant-apres .etiquette,
+.filtre,
+.formule .pastille,
+.autres-services a,
+form,
+input[type=text], input[type=email], input[type=tel], select, textarea,
+.puces span,
+.depot,
+.apercu img,
+.suggestions,
+.suggestions li,
+.succes,
+.cookies { border-radius: var(--rayon); }
+
+/* Relevé : ombres */
+.note-google,
+.illustration,
+.carte-service,
+.credit-impot,
+.etapes li,
+.realisation,
+.avis,
+.carte-zone,
+.formule,
+.membre,
+form,
+input:focus, select:focus, textarea:focus,
+.succes { box-shadow: none; }
+
+/* Relevé : petites capitales espacées */
+.surtitre,
+.marque-nom span,
+.realisation .lieu,
+.avant-apres .etiquette,
+.coordonnees strong { text-transform: none; letter-spacing: 0; font-size: max(.85rem, 1em); }

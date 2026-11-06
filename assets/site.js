@@ -34,7 +34,7 @@
   document.addEventListener("click", (e) => { if (!e.target.closest(".sous-menu")) fermerSousMenus(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") { fermerSousMenus(); if (document.activeElement.closest(".sous-menu")) document.activeElement.blur(); } });
 
-  // Consentement cookies : choix conservé 6 mois (recommandation CNIL), refuser aussi simple qu'accepter
+  // Consentement cookies : choix conservé 6 mois (recommandation CNIL), refuser aussi simple qu’accepter
   const CLE = "consentement-cookies";
   const DUREE = 1000 * 60 * 60 * 24 * 182;
   const lireChoix = () => {
@@ -43,7 +43,7 @@
       return choix && Date.now() - choix.date < DUREE ? choix : null;
     } catch { return null; }
   };
-  // La mesure d'audience ne se charge qu'après accord explicite
+  // La mesure d’audience ne se charge qu’après accord explicite
   const appliquer = (choix) => {
     if (choix && choix.mesure && !window.__mesureChargee) {
       window.__mesureChargee = true;
@@ -89,7 +89,7 @@
     document.querySelectorAll(".realisation[data-type]").forEach((a) => { a.hidden = type !== "tout" && a.dataset.type !== type; });
   }));
 
-  // Formulaire de devis : type de travaux présélectionné depuis la page d'un service (?travaux=…)
+  // Formulaire de devis : type de travaux présélectionné depuis la page d’un service (?travaux=…)
   const travaux = new URLSearchParams(location.search).get("travaux");
   if (travaux) {
     const c = document.querySelector(`input[name=travaux][value="${CSS.escape(travaux)}"]`);
@@ -146,7 +146,7 @@
     });
   });
 
-  // Photos du terrain : chaque ajout s'ajoute aux précédentes (5 au plus), chaque photo peut être retirée
+  // Photos du terrain : chaque ajout s’ajoute aux précédentes (5 au plus), chaque photo peut être retirée
   document.querySelectorAll("input[type=file][data-apercu]").forEach((champ) => {
     const MAX = 5;
     const zone = document.getElementById(champ.dataset.apercu);
@@ -154,7 +154,7 @@
     const libelle = champ.closest(".depot").querySelector("strong");
     let photos = [];
     const afficher = () => {
-      // Le champ garde toutes les photos retenues : c'est lui qui part avec le formulaire
+      // Le champ garde toutes les photos retenues : c’est lui qui part avec le formulaire
       try { const dt = new DataTransfer(); photos.forEach((f) => dt.items.add(f)); champ.files = dt.files; } catch {}
       zone.innerHTML = "";
       photos.forEach((f, i) => {
@@ -171,24 +171,24 @@
         vignette.append(img, retirer);
         zone.appendChild(vignette);
       });
-      libelle.textContent = photos.length ? `Ajouter d'autres photos (${photos.length} sur ${MAX})` : "Ajouter des photos";
+      libelle.textContent = photos.length ? `Ajouter d’autres photos (${photos.length} sur ${MAX})` : "Ajouter des photos";
     };
     champ.addEventListener("change", () => {
       const nouvelles = [...champ.files].filter((f) => f.type.startsWith("image/") && !photos.some((p) => p.name === f.name && p.size === f.size));
       const place = MAX - photos.length;
       photos = photos.concat(nouvelles.slice(0, place));
-      if (info) info.textContent = nouvelles.length > place ? `${MAX} photos au plus : les suivantes n'ont pas été ajoutées.` : "";
+      if (info) info.textContent = nouvelles.length > place ? `${MAX} photos au plus : les suivantes n’ont pas été ajoutées.` : "";
       afficher();
     });
   });
 
-  // Formulaires : validation côté navigateur, message d'erreur par champ, piège à robots
+  // Formulaires : validation côté navigateur, message d’erreur par champ, piège à robots
   document.querySelectorAll("form[data-formulaire]").forEach((form) => {
     form.setAttribute("novalidate", "");
     const messages = {
       valueMissing: "Ce champ est obligatoire.",
-      typeMismatch: "Le format n'est pas valide.",
-      patternMismatch: "Le format n'est pas valide.",
+      typeMismatch: "Le format n’est pas valide.",
+      patternMismatch: "Le format n’est pas valide.",
     };
     const verifier = (champ) => {
       const bloc = champ.closest(".champ");
@@ -216,7 +216,7 @@
         if (premier) premier.focus();
         return;
       }
-      // Démonstration : aucun envoi. En production, la demande et ses photos partent par e-mail à l'entreprise.
+      // Démonstration : aucun envoi. En production, la demande et ses photos partent par e-mail à l’entreprise.
       form.style.display = "none";
       const succes = form.parentElement.querySelector(".succes");
       if (succes) { succes.style.display = "block"; succes.focus(); }
